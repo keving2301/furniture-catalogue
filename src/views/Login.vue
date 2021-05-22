@@ -12,7 +12,7 @@
             <!--              <v-toolbar-title class="headline">Admin Panel</v-toolbar-title>-->
             <!--            </v-toolbar>-->
             <v-form class="mb-8">
-              <v-img :src="images.logo" class="mb-5" height="2rem" width="2rem"></v-img>
+              <v-icon class="mb-10" color="grey" size="2.5rem">mdi-atlassian</v-icon>
               <h3>Admin Portal</h3>
               <h5>Don't have an account? <a class="ma-2">Request Access
                 <v-icon class="ml-1" color="primary" small>mdi-key</v-icon>
@@ -57,9 +57,6 @@ import firebase from 'firebase';
 export default {
   data() {
     return {
-      images: {
-        logo: require('/src/assets/logo.png')
-      },
       disabled: false,
       email: '',
       emailRules: [
