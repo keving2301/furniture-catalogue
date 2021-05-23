@@ -1,5 +1,5 @@
 <template>
-    <v-card :color="color" elevation="7" outlined>
+    <v-card :color="color" outlined>
         <v-card-title>
             <v-icon color="white" large left>{{ icon }}</v-icon>
             <span class="white--text">{{ data }}</span>
