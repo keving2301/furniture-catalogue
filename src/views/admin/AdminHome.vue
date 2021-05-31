@@ -1,5 +1,5 @@
 <template>
-  <v-app style="background-color: #EEF5F9">
+  <v-app style="background-color: #FAFAFA; color: rgba(0, 0, 0, 0.87)">
     <v-overlay opacity="0" :value="drawer" z-index="4">
     </v-overlay>
 
@@ -19,9 +19,9 @@
           <template v-slot:activator>
             <v-list-item-title>Catalog</v-list-item-title>
           </template>
-          <v-list-item-group class="ml-7">
+          <v-list-item-group class="ml-14">
             <v-list-item v-for="(catalog, index) in catalogs" :key="index" link>
-              <v-icon class="mr-5">{{ catalog.icon }}</v-icon>
+<!--              <v-icon class="mr-5">{{ catalog.icon }}</v-icon>-->
               <v-list-item-title v-text="catalog.title"></v-list-item-title>
             </v-list-item>
           </v-list-item-group>
@@ -32,9 +32,9 @@
           <template v-slot:activator>
             <v-list-item-title>Tools</v-list-item-title>
           </template>
-          <v-list-item-group class="ml-7">
-            <v-list-item v-for="(tool, index) in tools" :key="index" link>
-              <v-icon class="mr-5">{{ tool.icon }}</v-icon>
+          <v-list-item-group class="ml-14">
+            <v-list-item v-for="(tool, index) in tools" :key="index" link @click="goto(tool.path)">
+<!--              <v-icon class="mr-5">{{ tool.icon }}</v-icon>-->
               <v-list-item-title v-text="tool.title"></v-list-item-title>
             </v-list-item>
           </v-list-item-group>
@@ -52,9 +52,9 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app clipped-left color="primary" dark>
+    <v-app-bar app clipped-left color="white" light>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title style="font-weight: 500; letter-spacing: .009375em">Furniture Catalog</v-toolbar-title>
+      <v-toolbar-title style="color:grey; font-weight: 500; letter-spacing: .009375em">Furniture Catalog</v-toolbar-title>
       <v-spacer/>
       <v-btn icon text @click="dark = !dark">
         <v-icon>{{ dark ? 'mdi-brightness-4' : 'mdi-brightness-6' }}</v-icon>
@@ -65,16 +65,18 @@
     </v-app-bar>
 
     <v-main>
-      <v-container fluid>
+      <v-container>
         <v-row>
           <v-col>
-            <router-view/>
+            <router-view class="pt-0 mt-0"/>
           </v-col>
         </v-row>
       </v-container>
     </v-main>
 
-    <v-footer app style="background-color: white; height: 4rem" >
+    <v-footer app style="background-color: white; height: 4rem"
+              elevation="7"
+              :style="{ bottom: $vuetify.application.bottom + 'px', zIndex: 4 }">
       <div class="flex text-center">
         <span class="lead text--secondary text-center">© 2021 All Rights Reserved. Design by
           <a class="text-decoration-none" href="https://kevingarcia.dev" target="_blank">Kevin Garcia</a>
@@ -86,7 +88,6 @@
 
 <script>
 import firebase from 'firebase';
-import {mapActions} from 'vuex';
 
 export default {
   data: () => ({
@@ -107,21 +108,13 @@ export default {
       {path: '/accessories', title: 'Accessories', icon: 'mdi-image-frame'}
     ],
     tools: [
-      {path: '/add', title: 'Add Furniture', icon: 'mdi-plus-circle'},
-      {path: '/delete', title: 'Delete Furniture', icon: 'mdi-pencil-outline'},
+      {path: '/add-furniture', title: 'Add Furniture', icon: 'mdi-plus-circle'},
+      {path: '/delete-furniture', title: 'Delete Furniture', icon: 'mdi-pencil-outline'},
       {path: '/edit', title: 'Edit Furniture', icon: 'mdi-delete-forever'}
     ]
   }),
   created() {
     this.dark = this.$vuetify.theme.dark
-    this.loadSounds;
-    this.loadBedroomSets;
-  },
-  computed: {
-    ...mapActions({
-      loadSounds: 'sounds/loadSounds',
-      loadBedroomSets: 'bedroomSets/loadBedroomSets',
-    }),
   },
   methods: {
     logOut() {
@@ -140,6 +133,9 @@ export default {
   watch: {
     dark: function () {
       this.$vuetify.theme.dark = this.dark;
+    },
+    drawer: function () {
+
     }
   }
 }

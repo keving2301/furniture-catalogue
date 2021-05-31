@@ -4,8 +4,8 @@ import firebase from 'firebase';
 import Login from '../views/Login';
 
 import Dashboard from '../views/admin/Dashboard';
-import BedroomSets from '../views/admin/BedroomSets';
-import Sounds from '../views/admin/Sounds';
+import AddFurniture from "../views/admin/AddFurniture";
+import DeleteFurniture from "../views/admin/DeleteFurniture";
 
 Vue.use(VueRouter)
 
@@ -20,8 +20,8 @@ const routes = [
     component: () => import('../views/admin/AdminHome.vue'),
     children: [
       { path: '', component: Dashboard },
-      { path: 'sounds', component: Sounds },
-      { path: 'bedroomSets', component: BedroomSets },
+      { path: 'add-furniture', component: AddFurniture },
+      { path: 'delete-furniture', component: DeleteFurniture },
     ],
     meta: {
       requiresAuth: true

@@ -1,68 +1,33 @@
 <template>
-    <v-content>
-        <v-row>
-            <v-col cols="6">
-                <DashBoardCard :title="'Number of Sounds'" color="primary" :data="sounds.length"
-                :icon="'mdi-playlist-music'" />
-            </v-col>
-            <v-col cols="6">
-                <DashBoardCard :title="'Number of Bedroom Set'" color="error" :data="bedroomSets.length"
-                :icon = "'mdi-folder-multiple'" />
-            </v-col>
-        </v-row>
-    </v-content>
+  <v-main>
+    <div style="width: 85rem" class= "container" >
+      <v-carousel hide-delimiter-background cycle :show-arrows="false" >
+        <v-carousel-item
+            v-for="(slide,i) in slides"
+            :key="i"
+            :src="slide.src"
+        ></v-carousel-item>
+      </v-carousel>
+    </div>
+  </v-main>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
-import DashBoardCard from '../../components/DashBoardCard';
-
-
-function groupBy(array, key){
-  const result = {}
-  array.forEach(item => {
-    if (!result[item[key]]){
-      result[item[key]] = []
-    }
-    result[item[key]].push(item)
-  })
-  return result
-}
-
 export default {
-    data() {
-        return { }
-    },
-    components: {
-        DashBoardCard
-    },
-    created() {
-        this.loadBedroomSets;
-        this.sounds;
-    },
-    methods: {
-        getBedroomSetById: function(id) {
-            let bedroomSet = this.bedroomSets.filter(c => c.id == id)[0];
-            if(bedroomSet === undefined) {
-                console.log('undefined qarşim');
-                return {title: 'Unknown'};
-            }
-            return bedroomSet;
+  data() {
+    return {
+      slides: [
+        {
+          src: require('/src/assets/Slides/slide1.png')
+        },
+        {
+          src: require('/src/assets/Slides/slide2.png')
+        },
+        {
+          src: require('/src/assets/Slides/slide3.png')
         }
-    },
-    computed: {
-        ...mapActions({
-            loadBedroomSets: 'bedroomSets/loadBedroomSets',
-            loadSounds: 'sounds/loadSounds'
-        }),
-        ...mapGetters({
-            bedroomSets: 'bedroomSets/getBedroomSets',
-            sounds: 'sounds/getSounds'
-        }),
-        groups(){
-            return groupBy(this.sounds, 'bedroomSet_id')
-        }
+      ]
     }
+  },
 }
-
 </script>
