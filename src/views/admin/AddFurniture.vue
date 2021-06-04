@@ -1,5 +1,5 @@
 <template>
-  <v-main>
+  <v-container>
     <v-item-group class="d-flex justify-center my-7" style="background-color: #e5e4e4; border-radius: 10px">
       <v-item class="py-3" style="font-weight: 500">
         <h5>Add New Furniture</h5>
@@ -55,7 +55,7 @@
         clear
       </v-btn>
     </form>
-  </v-main>
+  </v-container>
 </template>
 
 <script>
@@ -122,6 +122,6 @@ export default {
   }
 </script>
 
-<style>
+<style scoped>
 
 </style>

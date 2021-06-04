@@ -1,13 +1,15 @@
 <template>
-    <v-card :color="color" outlined>
+    <v-container>
+      <v-card :color="color" outlined>
         <v-card-title>
-            <v-icon color="white" large left>{{ icon }}</v-icon>
-            <span class="white--text">{{ data }}</span>
+          <v-icon color="white" large left>{{ icon }}</v-icon>
+          <span class="white--text">{{ data }}</span>
         </v-card-title>
         <v-card-subtitle class="white--text">
-            {{ title }}
+          {{ title }}
         </v-card-subtitle>
-    </v-card>
+      </v-card>
+    </v-container>
 </template>
 
 <script>

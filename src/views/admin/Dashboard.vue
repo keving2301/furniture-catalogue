@@ -1,14 +1,16 @@
 <template>
   <v-main>
-    <div style="width: 85rem" class= "container" >
-      <v-carousel hide-delimiter-background cycle :show-arrows="false" >
-        <v-carousel-item
-            v-for="(slide,i) in slides"
-            :key="i"
-            :src="slide.src"
-        ></v-carousel-item>
-      </v-carousel>
-    </div>
+    <v-container>
+      <v-flex xs12 class="d-flex justify-center">
+        <v-carousel class="carousel" hide-delimiter-background cycle :show-arrows="false">
+          <v-carousel-item
+              v-for="(slide,i) in slides"
+              :key="i"
+              :src="slide.src"
+          ></v-carousel-item>
+        </v-carousel>
+      </v-flex>
+    </v-container>
   </v-main>
 </template>
 
@@ -31,3 +33,10 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+
+.carousel {
+  max-width: 70rem;
+}
+</style>

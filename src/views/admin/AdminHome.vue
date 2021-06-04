@@ -1,11 +1,11 @@
 <template>
   <v-app style="background-color: #FAFAFA; color: rgba(0, 0, 0, 0.87)">
-    <v-overlay opacity="0" :value="drawer" z-index="4">
+    <v-overlay :value="drawer" opacity="0" z-index="4">
     </v-overlay>
 
     <v-navigation-drawer
-        v-model="drawer" app clipped hide-overlay
-        :style="{ top: $vuetify.application.top + 'px', zIndex: 4 }">
+        v-model="drawer" :style="{ top: $vuetify.application.top + 'px', zIndex: 4 }" app clipped hide-overlay
+        temporary>
       <v-list>
         <v-list-item @click="goto(homePath.path)">
           <v-list-item-icon>
@@ -21,7 +21,7 @@
           </template>
           <v-list-item-group class="ml-14">
             <v-list-item v-for="(catalog, index) in catalogs" :key="index" link>
-<!--              <v-icon class="mr-5">{{ catalog.icon }}</v-icon>-->
+              <!--              <v-icon class="mr-5">{{ catalog.icon }}</v-icon>-->
               <v-list-item-title v-text="catalog.title"></v-list-item-title>
             </v-list-item>
           </v-list-item-group>
@@ -34,7 +34,7 @@
           </template>
           <v-list-item-group class="ml-14">
             <v-list-item v-for="(tool, index) in tools" :key="index" link @click="goto(tool.path)">
-<!--              <v-icon class="mr-5">{{ tool.icon }}</v-icon>-->
+              <!--              <v-icon class="mr-5">{{ tool.icon }}</v-icon>-->
               <v-list-item-title v-text="tool.title"></v-list-item-title>
             </v-list-item>
           </v-list-item-group>
@@ -54,7 +54,10 @@
 
     <v-app-bar app clipped-left color="white" light>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title style="color:grey; font-weight: 500; letter-spacing: .009375em">Furniture Catalog</v-toolbar-title>
+      <v-toolbar-title style="color:grey; font-weight: 500; letter-spacing: .009375em; cursor: pointer"
+                       @click="goto(homePath.path)">
+        Furniture Catalog
+      </v-toolbar-title>
       <v-spacer/>
       <v-btn icon text @click="dark = !dark">
         <v-icon>{{ dark ? 'mdi-brightness-4' : 'mdi-brightness-6' }}</v-icon>
@@ -74,9 +77,9 @@
       </v-container>
     </v-main>
 
-    <v-footer app style="background-color: white; height: 4rem"
+    <v-footer :style="{ bottom: $vuetify.application.bottom + 'px', zIndex: 4 }" app
               elevation="7"
-              :style="{ bottom: $vuetify.application.bottom + 'px', zIndex: 4 }">
+              style="background-color: white; height: 4rem">
       <div class="flex text-center">
         <span class="lead text--secondary text-center">© 2021 All Rights Reserved. Design by
           <a class="text-decoration-none" href="https://kevingarcia.dev" target="_blank">Kevin Garcia</a>
