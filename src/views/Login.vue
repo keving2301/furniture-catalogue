@@ -12,7 +12,8 @@
             <!--              <v-toolbar-title class="headline">Admin Panel</v-toolbar-title>-->
             <!--            </v-toolbar>-->
             <v-form class="mb-8">
-              <v-icon class="mb-10" color="grey" size="2.5rem">mdi-atlassian</v-icon>
+              <v-icon v-if="!formIsValid" color=grey class="mb-10" size="2.5rem">mdi-atlassian</v-icon>
+              <v-icon v-if="formIsValid" color=blue class="mb-10" size="2.5rem">mdi-atlassian</v-icon>
               <h3>Admin Portal</h3>
               <h5>Don't have an account? <a class="ma-2">Request Access
                 <v-icon class="ml-1" color="primary" small>mdi-key</v-icon>
@@ -20,7 +21,7 @@
             </v-form>
 
             <v-card-text>
-              <v-form ref="form" lazy-validation v-bind:disabled="disabled">
+              <v-form ref="form" lazy-validation>
                 <v-text-field v-model="email" :rules="emailRules" label="E-Mail" outlined prepend-icon="mdi-email"
                               type="text"/>
                 <v-text-field v-model="password" :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
@@ -30,18 +31,14 @@
                               prepend-icon="mdi-lock"
                               @click:append="showPassword = !showPassword"/>
               </v-form>
-
               <p class="red--text">{{ error }} </p>
               <a class="reset-password">Forgot password?</a>
 
             </v-card-text>
 
             <v-card-actions>
-              <v-btn block color="primary" height="40" v-bind:disabled="disabled" @click="validate">
-                <span v-show="!disabled">Login</span>
-                <span v-show="disabled">
-                  <v-progress-circular color="primary" indeterminate></v-progress-circular>
-                </span>
+              <v-btn :disabled="!formIsValid" block color="primary" height="40" @click="validate">
+                <span>Login</span>
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -57,7 +54,6 @@ import firebase from 'firebase';
 export default {
   data() {
     return {
-      disabled: false,
       email: '',
       emailRules: [
         v => !!v || 'E-mail is required',
@@ -71,6 +67,13 @@ export default {
       error: ''
     }
   },
+  computed: {
+    formIsValid() {
+      return this.email !== '' && this.password !== '';
+    },
+  },
+
+
   methods: {
 
     validate() {

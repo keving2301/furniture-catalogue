@@ -5,56 +5,81 @@
         <h5>Add New Furniture</h5>
       </v-item>
     </v-item-group>
-    <form @submit.prevent="submit">
-      <v-text-field
-          v-model="furniture.name"
-          label="Furniture Name"
-          required
-      ></v-text-field>
-      <v-text-field
-          v-model="furniture.price"
-          label="Price"
-          required
-      ></v-text-field>
-      <v-select
-          v-model="furniture.color"
-          :items="colors"
-          data-vv-name="select"
-          label="Color"
-          required
-      ></v-select>
-      <v-select
-          v-model="furniture.category"
-          :items="categories"
-          data-vv-name="select"
-          label="Category"
-          required
-      ></v-select>
-      <v-select
-          v-model="furniture.material"
-          :items="materials"
-          data-vv-name="select"
-          label="Material"
-          required
-      ></v-select>
-      <v-select
-          v-model="furniture.manufacture"
-          :items="manufactures"
-          data-vv-name="select"
-          label="Manufacture"
-          required
-      ></v-select>
-      <v-btn
-          :disabled="invalid"
-          class="mr-4"
-          type="submit"
-      >
-        submit
-      </v-btn>
-      <v-btn @click="clear">
-        clear
-      </v-btn>
-    </form>
+    <v-layout class="d-flex justify-center my-7">
+      <v-flex xs12 sm7 md6 lg5>
+        <form @submit.prevent="submit">
+          <v-text-field
+              v-model="furniture.name"
+              label="Furniture Name"
+              required
+          ></v-text-field>
+          <v-text-field
+              v-model="furniture.price"
+              label="Price"
+              required
+          ></v-text-field>
+          <v-select
+              v-model="furniture.color"
+              :items="colors"
+              data-vv-name="select"
+              label="Color"
+              required
+          ></v-select>
+          <v-select
+              v-model="furniture.category"
+              :items="categories"
+              data-vv-name="select"
+              label="Category"
+              required
+          ></v-select>
+          <v-select
+              v-model="furniture.material"
+              :items="materials"
+              data-vv-name="select"
+              label="Material"
+              required
+          ></v-select>
+          <v-select
+              v-model="furniture.manufacture"
+              :items="manufactures"
+              data-vv-name="select"
+              label="Manufacture"
+              required
+          ></v-select>
+          <v-text-field
+              v-model="furniture.imageURL"
+              label="Image URL"
+              required
+          ></v-text-field>
+          <v-layout row >
+            <v-flex class="mt-3 d-flex justify-center">
+              <v-btn
+                  :disabled="!formIsValid"
+                  class="mr-4 primary--text"
+                  type="submit"
+              >
+                submit
+              </v-btn>
+              <v-btn @click="clear"
+                     class="error--text"
+                     :disabled="!formHasInfo">
+                clear
+              </v-btn>
+            </v-flex>
+          </v-layout>
+        </form>
+      </v-flex>
+      <v-flex v-if="!furniture.imageURL" lg5 class="ml-10 pa-0 d-flex justify-center align-center"
+              style="background-color: #e5e4e4; border-radius: 10px">
+        <h2 style="font-weight: 300; color: lightgrey; position: fixed">Image URL Preview</h2>
+      </v-flex>
+      <v-flex v-if="furniture.imageURL" lg5 class="ml-lg-10 pa-0 d-flex justify-center align-center">
+        <v-img contain v-if="furniture.imageURL"
+               :src="furniture.imageURL"
+               height="530" width="480">
+        </v-img>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 
@@ -65,7 +90,6 @@ export default {
   name: "add-furniture",
   data() {
     return {
-      invalid: false,
       errorMsg: false,
       manufactures: ['RIO', 'Johnson & Johnson', 'Pfizer'],
       categories: ['Living Room', 'Dining Room', 'Beds & Bedrooms', 'Accessories'],
@@ -79,9 +103,24 @@ export default {
         color: "",
         category: "",
         material: "",
+        imageURL: "",
       }
     }
   },
+
+  computed: {
+    formIsValid () {
+      return this.furniture.name !== '' && this.furniture.price !== '' && this.furniture.manufacture !== '' &&
+             this.furniture.color !== '' && this.furniture.category !== '' && this.furniture.material !== '' &&
+             this.furniture.imageURL !== ''
+    },
+    formHasInfo () {
+      return this.furniture.name !== '' || this.furniture.price !== '' || this.furniture.manufacture !== '' ||
+          this.furniture.color !== '' || this.furniture.category !== '' || this.furniture.material !== '' ||
+          this.furniture.imageURL !== ''
+    }
+  },
+
   methods: {
     //Generates Random SKU
     skuGenerator() {
@@ -109,17 +148,22 @@ export default {
         console.log("Furniture successfully updated!");
       } catch (error) {
         console.error("Error updating furniture: ", error);
-      }}
-    ,
-      clear()
-      {
-        this.name = '';
-        this.price = '';
-        this.email = '';
       }
     }
-
+    ,
+    clear() {
+          this.furniture.sku = "",
+          this.furniture.name = "",
+          this.furniture.price = "",
+          this.furniture.manufacture = "",
+          this.furniture.color = "",
+          this.furniture.category = "",
+          this.furniture.material = "",
+          this.furniture.imageURL = ""
+    }
   }
+
+}
 </script>
 
 <style scoped>

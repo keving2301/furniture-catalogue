@@ -11,6 +11,8 @@
           <v-toolbar-title>My CRUD</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
+
+<!--          New Furniture Modal-->
           <v-dialog v-model="newItemDialog" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn v-bind="attrs" v-on="on" class="mb-2" color="primary" dark>New Item</v-btn>
@@ -23,25 +25,28 @@
                 <v-container>
                   <v-row>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.name" label="Furniture name"></v-text-field>
+                      <v-text-field v-model="furnitures.name" label="Furniture name"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.sku" label="SKU"></v-text-field>
+                      <v-text-field v-model="furnitures.sku" label="SKU"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.price" label="Price"></v-text-field>
+                      <v-text-field v-model="furnitures.price" label="Price"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.color" label="Color"></v-text-field>
+                      <v-text-field v-model="furnitures.color" label="Color"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.category" label="Category"></v-text-field>
+                      <v-text-field v-model="furnitures.category" label="Category"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.material" label="Material"></v-text-field>
+                      <v-text-field v-model="furnitures.material" label="Material"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.manufacture" label="Manufacture"></v-text-field>
+                      <v-text-field v-model="furnitures.manufacture" label="Manufacture"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="4" sm="6">
+                      <v-text-field v-model="furnitures.imageURL" label="Image URL"></v-text-field>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -55,7 +60,7 @@
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="500px">
             <v-card class="text-center">
-                <v-card-title class="d-inline-flex mb-0 pb-0">Are you sure you want to delete {{fname}} from catalog?</v-card-title>
+                <v-card-title class="d-inline-flex mb-0 pb-0">Are you sure you want to delete from catalog?</v-card-title>
                 <h5 style="font-size: 13px!important;">This action can't be undo</h5>
                 <v-card-actions>
                   <v-spacer></v-spacer>
@@ -80,7 +85,6 @@
 
 <script>
 import {db} from '/src/firebase'
-import store from '/src/store/index'
 export default {
   name: "delete-furniture",
   data() {
@@ -102,50 +106,23 @@ export default {
         {text: 'Manufacture', value: 'manufacture'},
         {text: 'Actions', value: 'actions', sortable: false},
       ],
-      furnitures: [],
-      furniture: {
-        sku: "",
-        name: "",
-        price: "",
-        manufacture: "",
-        color: "",
-        category: "",
-        material: "",
-      },
-      editedItem: {
-        name: '',
-        price: 0,
-        color: '',
-        category: '',
-        material: '',
-        manufacture: '',
-      },
-      defaultItem: {
-        name: '',
-        price: 0,
-        color: '',
-        category: '',
-        material: '',
-        manufacture: '',
-      },
-
       invalid: false,
       errorMsg: false,
       manufactures: ['RIO', 'Johnson & Johnson', 'Pfizer'],
       categories: ['Living Room', 'Dining Room', 'Beds & Bedrooms', 'Accessories'],
       colors: ['White', 'Black', 'Blue', 'Green', 'Yellow', 'Gray', 'Brown', 'Cream', 'Charcoal', 'Red'],
       materials: ['Fabric', 'Microfiber', 'Leather', 'Velvet', 'Linen'],
-
     }
   },
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
     },
-    fname(){
-      return store.state.auth.user.data.name
+    furnitures () {
+      return this.$store.getters.loadedAllFurniture;
     }
   },
+
   watch: {
     dialog(val) {
       val || this.close()
@@ -157,6 +134,7 @@ export default {
   created() {
     this.watcher()
   },
+
   methods: {
     //Generates Random SKU
     skuGenerator() {
@@ -195,29 +173,29 @@ export default {
       this.furniture.category = '';
       this.furniture.material = '';
       this.furniture.manufacture = '';
-
+      this.furnitures.imageURL = ''
     },
     // Fetch Data and updates application with realtime data from firebase
-    watcher() {
-      this.furnitures = [];
-      db.collection("furniture").get().then((querySnapshot) => {
-
-        querySnapshot.forEach((doc) => {
-
-          const data = {
-            'sku': doc.id,
-            'name': doc.data().name,
-            'price': doc.data().price,
-            'color': doc.data().color,
-            'category': doc.data().category,
-            'material': doc.data().material,
-            'manufacture': doc.data().manufacture,
-          }
-
-          this.furnitures.push(data);
-        });
-      });
-    },
+    // watcher() {
+    //   this.furnitures = [];
+    //   db.collection("furniture").get().then((querySnapshot) => {
+    //
+    //     querySnapshot.forEach((doc) => {
+    //
+    //       const data = {
+    //         'sku': doc.id,
+    //         'name': doc.data().name,
+    //         'price': doc.data().price,
+    //         'color': doc.data().color,
+    //         'category': doc.data().category,
+    //         'material': doc.data().material,
+    //         'manufacture': doc.data().manufacture,
+    //       }
+    //
+    //       this.furnitures.push(data);
+    //     });
+    //   });
+    // },
     editItem(sku) {
       this.newItemDialog = true
       db.collection("furniture").doc(sku).update(this.furniture)
