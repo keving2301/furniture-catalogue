@@ -4,9 +4,10 @@ import firebase from 'firebase';
 import router from './router';
 import store from './store/index';
 import vuetify from './plugins/vuetify';
+import ErrorAlert from "@/components/ErrorAlert";
 
 Vue.config.productionTip = false;
-
+Vue.component('app-alert', ErrorAlert)
 let app;
 
 firebase.auth().onAuthStateChanged(user => {

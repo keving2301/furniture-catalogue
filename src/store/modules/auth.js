@@ -7,20 +7,31 @@ const auth = {
             loggedIn: false,
             data: null,
             id: null
-        }
+        },
+        error: null
     },
     getters: {
         user: (state) => {
             return state.user;
+        },
+        error: (state) => {
+            return state.error;
         }
     },
     mutations: {
-        SET_LOGGED_IN(state, value) {
-            state.user.loggedIn = value;
+        SET_LOGGED_IN(state, payload) {
+            state.user.loggedIn = payload;
         },
-        SET_USER(state, data) {
-            state.user.data = data;
-        }
+        SET_USER(state, payload) {
+            state.user.data = payload;
+        },
+        SET_ERROR(state, payload) {
+            state.error = payload;
+        },
+        CLEAR_ERROR(state) {
+            state.error = null;
+        },
+
     },
     actions: {
         fetchUser({commit}, user) {
@@ -32,6 +43,8 @@ const auth = {
             }
         },
         signUserUp({commit}, payload) {
+            commit('CLEAR_ERROR');
+
             firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(
                 user => {
                     const newUser = {
@@ -41,9 +54,13 @@ const auth = {
                 }
             ).catch(
                 error => {
-                    console.log(error)
+                    commit('SET_ERROR', error.message)
                 }
             )
+
+        },
+        clearError({commit}) {
+            commit('CLEAR_ERROR');
         }
     }
 }

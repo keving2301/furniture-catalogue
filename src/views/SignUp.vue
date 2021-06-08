@@ -6,6 +6,8 @@
                md="8"
                sm="12"
         >
+          <app-alert @dismissed="onDismissed" v-if="error" :text="error">
+          </app-alert>
           <v-card class="mx-auto rounded-sm pa-10" elevation="5" height="37rem" max-width="34rem">
 
             <!--            <v-toolbar color="primary" dark flat>-->
@@ -15,7 +17,7 @@
               <v-icon v-if="!formIsValid" color=grey class="mb-10" size="2.5rem">mdi-atlassian</v-icon>
               <v-icon v-if="formIsValid" color=blue class="mb-10" size="2.5rem">mdi-atlassian</v-icon>
               <h3>Sign Up</h3>
-              <h5>Already a user? <a class="ma-2 text-decoration-none" href="/login">Login
+              <h5>Already a user? <a class="ma-2 text-decoration-none" href="/">Login
                 <v-icon class="ml-1" color="primary" small>mdi-key</v-icon>
               </a></h5>
             </v-form>
@@ -36,11 +38,10 @@
                               outlined
                               prepend-icon="mdi-lock"
                               @click:append="showComparePassword = !showComparePassword"/>
-                  <p class="red--text">{{ error }} </p>
 
-                  <v-btn :disabled="!formIsValid" block color="primary" height="40" type="submit">
-                    <span>Sign Up</span>
-                  </v-btn>
+                <v-btn :disabled="!formIsValid" block color="primary" height="40" type="submit">
+                  <span>Sign Up</span>
+                </v-btn>
               </v-form>
             </v-card-text>
           </v-card>
@@ -67,7 +68,6 @@ export default {
       passwordRules: [
         v => !!v || 'Password is required'
       ],
-      error: ''
     }
   },
   computed: {
@@ -77,17 +77,25 @@ export default {
     passwordsMatch() {
       return this.password !== this.comparePassword ? 'Passwords do not match' : ''
     },
-    user () {
-      return this.$store.getters["auth/user"]
+    error() {
+      return this.$store.getters["auth/error"]
+
     }
   },
 
   methods: {
 
     validate() {
-      console.log(this.email + "   " + this.password)
-      this.$store.dispatch('auth/signUserUp', {email: this.email, password: this.password})
-      this.$router.push('/admin')
+      this.$store.dispatch('auth/signUserUp', {
+        email: this.email,
+        password: this.password,
+      })
+      // this.$router.push({path: "/"}).catch(() => {
+      // });
+    },
+    onDismissed() {
+      this.$store.dispatch('auth/clearError');
+
     }
   }
 }

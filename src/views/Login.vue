@@ -75,10 +75,8 @@ export default {
 
 
   methods: {
-
     validate() {
       if (this.$refs.form.validate()) {
-
         firebase
             .auth()
             .signInWithEmailAndPassword(this.email, this.password)
