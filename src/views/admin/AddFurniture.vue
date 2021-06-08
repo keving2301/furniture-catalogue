@@ -128,13 +128,28 @@ export default {
     },
     // Creates New Furniture with an auto generated furniture SKU
     submit() {
-      this.skuGenerator();
-      try {
-        db.collection("furniture").doc(this.furniture.sku).set(this.furniture);
-        console.log("Furniture successfully created with SKU: ", this.furniture.sku);
-      } catch (error) {
-        console.error("Error adding furniture: ", error);
+      if(!this.formIsValid){
+        return
       }
+      this.skuGenerator()
+      const furnitureData = {
+        sku: this.sku,
+        name: this.name,
+        price: this.price,
+        manufacture: this.manufacture,
+        color: this.color,
+        category: this.category,
+        material: this.material,
+        imageURL: this.imageURL,
+      }
+      this.$store.dispatch('createFurniture', furnitureData);
+      this.$router.push('/delete-furniture');
+      // try {
+      //   db.collection("furniture").doc(this.furniture.sku).set(this.furniture);
+      //   console.log("Furniture successfully created with SKU: ", this.furniture.sku);
+      // } catch (error) {
+      //   console.error("Error adding furniture: ", error);
+      // }
 
     },
     // Update User Information

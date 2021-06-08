@@ -1,3 +1,4 @@
+
 const furniture = {
     state: {
         furniture: [
@@ -37,8 +38,29 @@ const furniture = {
             }
         }
     },
-    mutations: {},
-    actions: {}
+    mutations: {
+        createFurniture(state, payload) {
+            state.furniture.push(payload)
+        }
+    },
+    actions: {
+        createFurniture({commit}, payload) {
+            const furniture = {
+                id: payload.sku,
+                name: payload.name,
+                price: payload.price,
+                manufacture: payload.manufacture,
+                color: payload.color,
+                category: payload.category,
+                material: payload.material,
+                imageURL: payload.imageURL
+            }
+            //Store info in firebase
+            commit('createFurniture', furniture);
+        },
+
+
+    }
 }
 
 export default furniture;

@@ -14,14 +14,14 @@
             <v-form class="mb-8">
               <v-icon v-if="!formIsValid" color=grey class="mb-10" size="2.5rem">mdi-atlassian</v-icon>
               <v-icon v-if="formIsValid" color=blue class="mb-10" size="2.5rem">mdi-atlassian</v-icon>
-              <h3>Admin Portal</h3>
-              <h5>Don't have an account? <a class="ma-2 text-decoration-none" href="/signup">Request Access
+              <h3>Sign Up</h3>
+              <h5>Already a user? <a class="ma-2 text-decoration-none" href="/login">Login
                 <v-icon class="ml-1" color="primary" small>mdi-key</v-icon>
               </a></h5>
             </v-form>
 
             <v-card-text>
-              <v-form ref="form" lazy-validation>
+              <v-form lazy-validation @submit.prevent="validate">
                 <v-text-field v-model="email" :rules="emailRules" label="E-Mail" outlined prepend-icon="mdi-email"
                               type="text"/>
                 <v-text-field v-model="password" :append-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
@@ -30,17 +30,19 @@
                               outlined
                               prepend-icon="mdi-lock"
                               @click:append="showPassword = !showPassword"/>
+                <v-text-field v-model="comparePassword" :append-icon="showComparePassword ? 'mdi-eye-off' : 'mdi-eye'"
+                              :rules="[passwordsMatch]"
+                              :type="showComparePassword ? 'text' : 'password'" label="Password"
+                              outlined
+                              prepend-icon="mdi-lock"
+                              @click:append="showComparePassword = !showComparePassword"/>
+                  <p class="red--text">{{ error }} </p>
+
+                  <v-btn :disabled="!formIsValid" block color="primary" height="40" type="submit">
+                    <span>Sign Up</span>
+                  </v-btn>
               </v-form>
-              <p class="red--text">{{ error }} </p>
-              <a class="reset-password">Forgot password?</a>
-
             </v-card-text>
-
-            <v-card-actions>
-              <v-btn :disabled="!formIsValid" block color="primary" height="40" @click="validate">
-                <span>Login</span>
-              </v-btn>
-            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
@@ -49,7 +51,6 @@
 </template>
 
 <script>
-import firebase from 'firebase';
 
 export default {
   data() {
@@ -60,7 +61,9 @@ export default {
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
       showPassword: false,
+      showComparePassword: false,
       password: '',
+      comparePassword: '',
       passwordRules: [
         v => !!v || 'Password is required'
       ],
@@ -69,26 +72,22 @@ export default {
   },
   computed: {
     formIsValid() {
-      return this.email !== '' && this.password !== '';
+      return this.email !== '' && this.password !== '' && this.comparePassword !== '';
     },
+    passwordsMatch() {
+      return this.password !== this.comparePassword ? 'Passwords do not match' : ''
+    },
+    user () {
+      return this.$store.getters["auth/user"]
+    }
   },
-
 
   methods: {
 
     validate() {
-      if (this.$refs.form.validate()) {
-
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(this.email, this.password)
-            .then(() => {
-              this.$router.replace({path: "/admin"});
-            })
-            .catch(err => {
-              this.error = err.message;
-            });
-      }
+      console.log(this.email + "   " + this.password)
+      this.$store.dispatch('auth/signUserUp', {email: this.email, password: this.password})
+      this.$router.push('/admin')
     }
   }
 }
