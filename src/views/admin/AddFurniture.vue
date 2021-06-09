@@ -51,7 +51,7 @@
              <input
                  ref="fileInput"
                  @change="onImageUpload"
-                 accept="image/*"
+                 accept="image/png"
                  type="file"
                  style="display: none"
              >
@@ -137,24 +137,29 @@ export default {
     // Creates New Furniture with an auto generated furniture SKU
     submit() {
       if (!this.formIsValid) {
+        console.log("Form is not Valid")
         return
       }
-      if(!this.image){
+      if(!this.furniture.image){
+        console.log("Image is not Valid")
         return
       }
+      console.log("We good")
+
       this.skuGenerator()
       const furnitureData = {
-        sku: this.sku,
-        name: this.name,
-        price: this.price,
-        manufacture: this.manufacture,
-        color: this.color,
-        category: this.category,
-        material: this.material,
-        image: this.image,
+        sku: this.furniture.sku,
+        name: this.furniture.name,
+        price: this.furniture.price,
+        manufacture: this.furniture.manufacture,
+        color: this.furniture.color,
+        category: this.furniture.category,
+        material: this.furniture.material,
+        image: this.furniture.image,
       }
+
       this.$store.dispatch('createFurniture', furnitureData);
-      this.$router.push('/delete-furniture');
+      this.$router.push('/admin/delete-furniture');
       // try {
       //   db.collection("furniture").doc(this.furniture.sku).set(this.furniture);
       //   console.log("Furniture successfully created with SKU: ", this.furniture.sku);
@@ -183,12 +188,14 @@ export default {
     onImageUpload(event) {
       const files = event.target.files
       let filename = files[0].name
+
       if(filename.lastIndexOf('.') <= 0) {
         return alert ('Please add a valid image')
       }
       const fileReader = new FileReader()
       fileReader.addEventListener('load', () => {
         this.furniture.imageURL = fileReader.result
+
       })
       fileReader.readAsDataURL(files[0])
       this.furniture.image = files[0]
