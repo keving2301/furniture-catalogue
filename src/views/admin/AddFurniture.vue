@@ -46,13 +46,20 @@
               label="Manufacture"
               required
           ></v-select>
-          <v-text-field
-              v-model="furniture.imageURL"
-              label="Image URL"
-              required
-          ></v-text-field>
-          <v-layout row >
-            <v-flex class="mt-3 d-flex justify-center">
+         <v-layout row>
+           <v-flex class="d-flex">
+             <input
+                 ref="fileInput"
+                 @change="onImageUpload"
+                 accept="image/*"
+                 type="file"
+                 style="display: none"
+             >
+             <v-btn @click="onFilePick">Upload</v-btn>
+           </v-flex>
+         </v-layout>
+          <v-layout row>
+            <v-flex class="mt-8 d-flex justify-center">
               <v-btn
                   :disabled="!formIsValid"
                   class="mr-4 primary--text"
@@ -103,18 +110,19 @@ export default {
         color: "",
         category: "",
         material: "",
-        imageURL: "",
+        imageURL: '',
+        image: null
       }
     }
   },
 
   computed: {
-    formIsValid () {
+    formIsValid() {
       return this.furniture.name !== '' && this.furniture.price !== '' && this.furniture.manufacture !== '' &&
-             this.furniture.color !== '' && this.furniture.category !== '' && this.furniture.material !== '' &&
-             this.furniture.imageURL !== ''
+          this.furniture.color !== '' && this.furniture.category !== '' && this.furniture.material !== '' &&
+          this.furniture.imageURL !== ''
     },
-    formHasInfo () {
+    formHasInfo() {
       return this.furniture.name !== '' || this.furniture.price !== '' || this.furniture.manufacture !== '' ||
           this.furniture.color !== '' || this.furniture.category !== '' || this.furniture.material !== '' ||
           this.furniture.imageURL !== ''
@@ -128,7 +136,10 @@ export default {
     },
     // Creates New Furniture with an auto generated furniture SKU
     submit() {
-      if(!this.formIsValid){
+      if (!this.formIsValid) {
+        return
+      }
+      if(!this.image){
         return
       }
       this.skuGenerator()
@@ -140,7 +151,7 @@ export default {
         color: this.color,
         category: this.category,
         material: this.material,
-        imageURL: this.imageURL,
+        image: this.image,
       }
       this.$store.dispatch('createFurniture', furnitureData);
       this.$router.push('/delete-furniture');
@@ -164,10 +175,27 @@ export default {
       } catch (error) {
         console.error("Error updating furniture: ", error);
       }
-    }
-    ,
+    },
+    onFilePick() {
+      this.$refs.fileInput.click()
+    },
+
+    onImageUpload(event) {
+      const files = event.target.files
+      let filename = files[0].name
+      if(filename.lastIndexOf('.') <= 0) {
+        return alert ('Please add a valid image')
+      }
+      const fileReader = new FileReader()
+      fileReader.addEventListener('load', () => {
+        this.furniture.imageURL = fileReader.result
+      })
+      fileReader.readAsDataURL(files[0])
+      this.furniture.image = files[0]
+    },
+
     clear() {
-          this.furniture.sku = "",
+      this.furniture.sku = "",
           this.furniture.name = "",
           this.furniture.price = "",
           this.furniture.manufacture = "",

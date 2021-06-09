@@ -1,3 +1,4 @@
+import firebase from "firebase";
 
 const furniture = {
     state: {
@@ -53,10 +54,27 @@ const furniture = {
                 color: payload.color,
                 category: payload.category,
                 material: payload.material,
-                imageURL: payload.imageURL
             }
             //Store info in firebase
-            commit('createFurniture', furniture);
+            let imageURL
+            let id
+            firebase.db.collection('furniture').doc(furniture.id).set(furniture)
+                .then(() => {
+                    return furniture.id
+                }).then( id => {
+                const filename = payload.image.name
+                const ext = filename.slice(filename.lastIndexOf('.'))
+                return firebase.storage().ref('furniture/' + id + '.' + ext)
+            }).then(fileData) => {
+
+            }
+
+                    commit('createFurniture', furniture)
+                    console.log("Furniture successfully added!");
+
+            .catch((error) => {
+                    console.log(error)
+            })
         },
 
 
