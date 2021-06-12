@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import Login from '../views/Login';
 
 import Dashboard from '../views/admin/Dashboard';

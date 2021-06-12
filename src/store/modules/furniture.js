@@ -1,5 +1,4 @@
-import firebase from "firebase";
-import {db} from '/src/firebase'
+import {db, fb} from '/src/firebase'
 
 const furniture = {
     state: {
@@ -66,12 +65,12 @@ const furniture = {
                 }).then(id => {
                 const filename = payload.image.name
                 const ext = filename.slice(filename.lastIndexOf('.'))
-                return firebase.storage().ref('Furniture/' + id + ext).put(payload.image)
+                return fb.storage().ref('Furniture/' + id + ext).put(payload.image)
             }).then(fileData => {
 
                 imageURL = fileData.ref.getDownloadURL()
 
-                return firebase.database().ref('Furniture').child(id).update({imageURL: imageURL})
+                return fb.database().ref('furniture').child(id).update({imageURL: imageURL})
             }).then(() => {
                 commit('createFurniture', {
                     ...furniture,

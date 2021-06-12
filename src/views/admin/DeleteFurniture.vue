@@ -77,7 +77,7 @@
         <v-icon small @click="deleteItem">mdi-delete</v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="watcher">Reset</v-btn>
+<!--        <v-btn color="primary" @click="watcher">Reset</v-btn>-->
       </template>
     </v-data-table>
   </v-container>
@@ -132,7 +132,7 @@ export default {
     },
   },
   created() {
-    this.watcher()
+    // this.watcher()
   },
 
   methods: {

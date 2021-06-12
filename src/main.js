@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import App from './App.vue';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/auth'
 import router from './router';
 import store from './store/index';
 import vuetify from './plugins/vuetify';
