@@ -15,22 +15,21 @@
 </template>
 
 <script>
+import {storage} from '/src/firebase'
+
 export default {
   data() {
     return {
-      slides: [
-        {
-          src: require('/src/assets/Slides/slide1.png')
-        },
-        {
-          src: require('/src/assets/Slides/slide2.png')
-        },
-        {
-          src: require('/src/assets/Slides/slide3.png')
-        }
-      ]
+      slides: []
     }
   },
+  mounted() {
+    for (let i = 1; i <= 3; i++) {
+      storage.ref().child('Slides/' + "slide" + i + ".png").getDownloadURL().then(url => {
+        this.slides.push({src: url})
+      })
+    }
+  }
 }
 </script>
 
