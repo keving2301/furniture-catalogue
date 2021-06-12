@@ -91,7 +91,7 @@
 </template>
 
 <script>
-import {db} from '/src/firebase'
+import {db} from '/src/firebase.js'
 
 export default {
   name: "add-furniture",
