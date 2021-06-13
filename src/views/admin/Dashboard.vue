@@ -15,8 +15,8 @@
 </template>
 
 <script>
-import {storage} from '/src/firebase'
-
+import {fb} from '/src/firebase'
+import 'firebase/storage'
 export default {
   data() {
     return {
@@ -26,7 +26,7 @@ export default {
   mounted() {
     for (let i = 1; i <= 3; i++) {
 
-      storage.ref().child('Slides/' + "slide" + i + ".png").getDownloadURL().then(url => {
+      fb.storage().ref().child('Slides/' + "slide" + i + ".png").getDownloadURL().then(url => {
         this.slides.push({src: url})
       })
 
