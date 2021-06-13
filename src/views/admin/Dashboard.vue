@@ -15,7 +15,7 @@
 </template>
 
 <script>
-// import {storage} from '/src/firebase'
+import {storage} from '/src/firebase'
 
 export default {
   data() {
@@ -24,12 +24,14 @@ export default {
     }
   },
   mounted() {
-    // for (let i = 1; i <= 3; i++) {
-    //
-    //    storage.ref().child('Slides/' + "slide" + i + ".png").getDownloadURL().then(url => {
-    //     this.slides.push({src: url})
-    //   })
-    // }
+    for (let i = 1; i <= 3; i++) {
+
+      storage.ref().child('Slides/' + "slide" + i + ".png").getDownloadURL().then(url => {
+        this.slides.push({src: url})
+      })
+
+    }
+
   }
 }
 </script>
