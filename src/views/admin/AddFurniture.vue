@@ -91,7 +91,8 @@
 </template>
 
 <script>
-import {db} from '/src/firebase'
+import firebase from "firebase/app";
+import 'firebase/firestore'
 
 export default {
   name: "add-furniture",
@@ -175,7 +176,7 @@ export default {
         let docRef = this.furniture.sku.toString();
         console.log(docRef);
 
-        db.collection("furniture").doc(docRef).update(this.furniture);
+        firebase.firestore().collection("furniture").doc(docRef).update(this.furniture);
         console.log("Furniture successfully updated!");
       } catch (error) {
         console.error("Error updating furniture: ", error);

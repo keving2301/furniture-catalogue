@@ -84,7 +84,9 @@
 </template>
 
 <script>
-import {db} from '/src/firebase'
+import firebase from "firebase/app";
+import 'firebase/firestore'
+
 export default {
   name: "delete-furniture",
   data() {
@@ -144,7 +146,7 @@ export default {
     save() {
       this.skuGenerator();
       try {
-        db.collection("furniture").doc(this.furniture.sku).set(this.furniture);
+        firebase.firestore().collection("furniture").doc(this.furniture.sku).set(this.furniture);
         console.log("Furniture successfully created with SKU: ", this.furniture.sku);
         this.watcher()
         this.close()
@@ -158,7 +160,7 @@ export default {
         let docRef = this.furniture.sku.toString();
         console.log(docRef);
 
-        db.collection("furniture").doc(docRef).update(this.furniture);
+        firebase.firestore().collection("furniture").doc(docRef).update(this.furniture);
         console.log("Furniture successfully updated!");
       } catch (error) {
         console.error("Error updating furniture: ", error);
@@ -198,7 +200,7 @@ export default {
     // },
     editItem(sku) {
       this.newItemDialog = true
-      db.collection("furniture").doc(sku).update(this.furniture)
+      firebase.firestore().collection("furniture").doc(sku).update(this.furniture)
           .then(() => {
             this.watcher();
 
@@ -224,7 +226,7 @@ export default {
 
     deleteItemConfirm() {
       console.log(this.furniture.sku)
-      db.collection("furniture").doc(this.furnitures.sku).delete().then(() => {
+      firebase.firestore().collection("furniture").doc(this.furnitures.sku).delete().then(() => {
         this.watcher();
         console.log("Document successfully deleted!");
       }).catch(function (error) {
