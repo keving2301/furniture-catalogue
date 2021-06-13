@@ -1,4 +1,4 @@
-import {fb} from "/src/firebase";
+import firebase from "firebase/app";
 
 const auth = {
     namespaced: true,
@@ -45,7 +45,7 @@ const auth = {
         signUserUp({commit}, payload) {
             commit('CLEAR_ERROR');
 
-            fb.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(
+            firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password).then(
                 user => {
                     const newUser = {
                         id: user.uid

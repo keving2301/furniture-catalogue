@@ -1,4 +1,6 @@
-import {db, fb} from '/src/firebase'
+import firebase from 'firebase/app'
+import 'firebase/firestore'
+import 'firebase/storage'
 
 const furniture = {
     state: {
@@ -59,18 +61,18 @@ const furniture = {
             let imageURL
             let id = payload.sku
 
-            db.collection('furniture').doc(furniture.id).set(furniture)
+            firebase.firestore.collection('furniture').doc(furniture.id).set(furniture)
                 .then(() => {
                     return furniture.id
                 }).then(id => {
                 const filename = payload.image.name
                 const ext = filename.slice(filename.lastIndexOf('.'))
-                return fb.storage().ref('Furniture/' + id + ext).put(payload.image)
+                return firebase.storage().ref('Furniture/' + id + ext).put(payload.image)
             }).then(fileData => {
 
                 imageURL = fileData.ref.getDownloadURL()
 
-                return fb.database().ref('furniture').child(id).update({imageURL: imageURL})
+                return firebase.database().ref('furniture').child(id).update({imageURL: imageURL})
             }).then(() => {
                 commit('createFurniture', {
                     ...furniture,
