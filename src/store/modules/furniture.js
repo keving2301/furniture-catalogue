@@ -4,30 +4,7 @@ import 'firebase/storage'
 
 const furniture = {
     state: {
-        furniture: [
-            {
-                sku: "1231234",
-                name: "Loca",
-                price: "",
-                manufacture: "",
-                color: "",
-                category: "",
-                material: "",
-                imageURL: ""
-            },
-            {
-                sku: "9999999",
-                name: "Arata",
-                price: "",
-                manufacture: "",
-                color: "",
-                category: "",
-                material: "",
-                imageURL: ""
-            }
-        ]
-
-
+        furniture: []
     },
     getters: {
         loadedAllFurniture(state) {
@@ -44,6 +21,21 @@ const furniture = {
     mutations: {
         createFurniture(state, payload) {
             state.furniture.push(payload)
+        },
+        storeAllFurniture(state, payload) {
+            state.furniture.push(payload)
+        },
+        deleteFurniture(state, payload){
+            try{
+                let i;
+                for(i = 0; i<state.furniture.length; i++){
+                    if(state.furniture[i].sku === payload.sku){
+                        state.furniture[i].remove()
+                    }
+                }
+            }catch(error){
+                console.log(error)
+            }
         }
     },
     actions: {
@@ -81,11 +73,16 @@ const furniture = {
                 })
                 console.log("Furniture successfully added!");
             }).catch((error) => {
-                    console.log(error)
-                })
+                console.log(error)
+            })
         },
+        storeAllFurniture({commit}, payload) {
 
-
+            commit('storeAllFurniture', payload)
+        },
+        deleteFurniture({commit}, payload) {
+            commit('deleteFurniture', payload)
+        }
     }
 }
 
