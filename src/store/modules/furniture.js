@@ -1,6 +1,7 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore'
 import 'firebase/storage'
+import 'firebase/database'
 
 const furniture = {
     state: {
@@ -53,7 +54,7 @@ const furniture = {
             let imageURL
             let id = payload.sku
 
-            firebase.firestore.collection('furniture').doc(furniture.id).set(furniture)
+            firebase.firestore().collection('furniture').doc(furniture.id).set(furniture)
                 .then(() => {
                     return furniture.id
                 }).then(id => {

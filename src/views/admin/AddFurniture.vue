@@ -145,7 +145,6 @@ export default {
         console.log("Image is not Valid")
         return
       }
-      console.log("We good")
 
       this.skuGenerator()
       const furnitureData = {
