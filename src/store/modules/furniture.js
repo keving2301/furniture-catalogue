@@ -27,6 +27,7 @@ const furniture = {
             state.furniture.push(payload)
         },
         deleteFurniture(state, payload){
+            console.log(state.furniture)
             try{
                 let i;
                 for(i = 0; i<state.furniture.length; i++){
@@ -37,6 +38,9 @@ const furniture = {
             }catch(error){
                 console.log(error)
             }
+        },
+        resetState(state){
+           state.furniture = []
         }
     },
     actions: {
@@ -83,6 +87,9 @@ const furniture = {
         },
         deleteFurniture({commit}, payload) {
             commit('deleteFurniture', payload)
+        },
+        resetState({commit}) {
+            commit('resetState')
         }
     }
 }

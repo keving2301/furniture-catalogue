@@ -11,7 +11,7 @@
           <v-toolbar-title>My CRUD</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
-          <v-btn class="mb-2" color="primary" dark @click="$router.push('/admin/add-furniture')">New Item</v-btn>
+          <v-btn class="mb-2" color="primary" dark @click="goToAddFurniture">New Item</v-btn>
 
           <!--          New Furniture Modal-->
           <v-dialog v-model="newItemDialog" max-width="500px">
@@ -35,16 +35,27 @@
                       <v-text-field v-model="furniture.price" label="Price"></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.color" label="Color"></v-text-field>
+                      <v-select
+                          v-model="furniture.color" :items="colors" data-vv-name="select" label="Color" required
+                      ></v-select>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.category" label="Category"></v-text-field>
+                      <v-select
+                          v-model="furniture.category" :items="categories" data-vv-name="select" label="Category"
+                          required
+                      ></v-select>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.material" label="Material"></v-text-field>
+                      <v-select
+                          v-model="furniture.material" :items="materials" data-vv-name="select" label="Material"
+                          required
+                      ></v-select>
                     </v-col>
                     <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.manufacture" label="Manufacture"></v-text-field>
+                      <v-select
+                          v-model="furniture.manufacture" :items="manufactures" data-vv-name="select"
+                          label="Manufacture" required
+                      ></v-select>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -106,6 +117,7 @@ export default {
         color: "",
         category: "",
         material: "",
+        imageURL: "",
       },
       headers: [
         {
@@ -127,7 +139,7 @@ export default {
   computed: {
 
     formTitle() {
-      return this.editedIndex === -1 ? 'New Furniture' : 'Edit Furniture'
+      return this.editedIndex === -1 ? 'Edit Furniture' : 'Edit Furniture'
     },
 
     furnitures() {
@@ -147,6 +159,9 @@ export default {
   },
 
   created() {
+    //Resets Store Values
+    this.$store.dispatch('resetState');
+
     firebase.firestore().collection("furniture").get().then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const data = {
@@ -167,10 +182,11 @@ export default {
   methods: {
     // Creates New Furniture with an auto generated furniture SKU
     save() {
-      console.log(this.furniture)
       firebase.firestore().collection("furniture").doc(this.furniture.sku).update(this.furniture)
           .then(() => {
             console.log("Document successfully updated!");
+            this.updateAllFurnitureData();
+            this.newItemDialog = false
           })
           .catch(function (error) {
             // The document probably doesn't exist.
@@ -179,6 +195,9 @@ export default {
     },
 
     updateAllFurnitureData() {
+      //Resets Store Values
+      this.$store.dispatch('resetState');
+
       firebase.firestore().collection("furniture").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           const data = {
@@ -193,7 +212,7 @@ export default {
           }
           this.$store.dispatch('storeAllFurniture', data);
         });
-      })
+      });
     },
 
     clear() {
@@ -215,17 +234,26 @@ export default {
       this.furniture.category = furniture.category
       this.furniture.material = furniture.material
       this.furniture.manufacture = furniture.manufacture
+
       this.newItemDialog = true
     },
 
+    goToAddFurniture() {
+      //Resets Store Values
+      this.$store.dispatch('resetState');
+
+      this.$router.push('/admin/add-furniture')
+
+    },
+
     deleteItem(furniture) {
+      this.furniture = furniture
       this.dialogDelete = true
-      this.furniture.push(furniture)
     },
 
     deleteItemConfirm() {
-      firebase.firestore().collection("furniture").doc(this.furniture[0].sku).delete().then(() => {
-        this.$store.commit('deleteFurniture', this.furniture[0])
+      firebase.firestore().collection("furniture").doc(this.furniture.sku).delete().then(() => {
+        this.updateAllFurnitureData();
         console.log("Document successfully deleted!");
       }).catch(function (error) {
         console.error("Error removing document: ", error);
