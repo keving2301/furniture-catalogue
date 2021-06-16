@@ -218,6 +218,7 @@ export default {
       firebase.firestore().collection("furniture").doc(this.furniture.sku).delete().then(() => {
         this.$store.dispatch('resetState');
         this.$store.dispatch('storeAllFurniture');
+        this.furnitures = this.$store.getters.loadedAllFurniture
         console.log("Document successfully deleted!");
       }).catch(function (error) {
         console.error("Error removing document: ", error);
