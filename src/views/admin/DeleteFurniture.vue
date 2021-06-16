@@ -100,6 +100,7 @@ export default {
   name: "delete-furniture",
   data() {
     return {
+      furnitures: [],
       editedIndex: 1,
       newItemDialog: false,
       dialogDelete: false,
@@ -141,10 +142,6 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? 'Edit Furniture' : 'Edit Furniture'
     },
-
-    furnitures() {
-      return this.$store.getters.loadedAllFurniture
-    }
   },
 
   watch: {
@@ -161,58 +158,24 @@ export default {
   created() {
     //Resets Store Values
     this.$store.dispatch('resetState');
-
-    firebase.firestore().collection("furniture").get().then((querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        const data = {
-          'sku': doc.id,
-          'name': doc.data().name,
-          'price': doc.data().price,
-          'color': doc.data().color,
-          'category': doc.data().category,
-          'material': doc.data().material,
-          'manufacture': doc.data().manufacture,
-          'imageURL': doc.data().imageURL,
-        }
-        this.$store.dispatch('storeAllFurniture', data);
-      });
-    });
+    this.$store.dispatch('storeAllFurniture')
+    this.furnitures = this.$store.getters.loadedAllFurniture
   },
 
   methods: {
-    // Creates New Furniture with an auto generated furniture SKU
+
     save() {
       firebase.firestore().collection("furniture").doc(this.furniture.sku).update(this.furniture)
           .then(() => {
             console.log("Document successfully updated!");
-            this.updateAllFurnitureData();
+            this.$store.dispatch('resetState');
+            this.$store.dispatch('storeAllFurniture');
             this.newItemDialog = false
           })
           .catch(function (error) {
             // The document probably doesn't exist.
             console.error("Error updating document: ", error);
           });
-    },
-
-    updateAllFurnitureData() {
-      //Resets Store Values
-      this.$store.dispatch('resetState');
-
-      firebase.firestore().collection("furniture").get().then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          const data = {
-            'sku': doc.id,
-            'name': doc.data().name,
-            'price': doc.data().price,
-            'color': doc.data().color,
-            'category': doc.data().category,
-            'material': doc.data().material,
-            'manufacture': doc.data().manufacture,
-            'imageURL': doc.data().imageURL,
-          }
-          this.$store.dispatch('storeAllFurniture', data);
-        });
-      });
     },
 
     clear() {
@@ -253,7 +216,8 @@ export default {
 
     deleteItemConfirm() {
       firebase.firestore().collection("furniture").doc(this.furniture.sku).delete().then(() => {
-        this.updateAllFurnitureData();
+        this.$store.dispatch('resetState');
+        this.$store.dispatch('storeAllFurniture');
         console.log("Document successfully deleted!");
       }).catch(function (error) {
         console.error("Error removing document: ", error);
