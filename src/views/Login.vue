@@ -79,7 +79,7 @@ export default {
     validate() {
       if (this.$refs.form.validate()) {
         firebase
-            .default.auth()
+            .auth()
             .signInWithEmailAndPassword(this.email, this.password)
             .then(() => {
               this.$router.replace({path: "/admin"});

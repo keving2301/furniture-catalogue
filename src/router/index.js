@@ -33,7 +33,7 @@ const routes = [
             {path: 'delete-furniture', component: DeleteFurniture},
         ],
         meta: {
-            requiresAuth: true,
+            requiresAuth: false,
             title: "Furniture Catalog",
             icon: "/logo.png"
         }
