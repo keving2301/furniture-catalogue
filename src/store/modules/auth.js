@@ -1,4 +1,6 @@
 import firebase from "firebase/app";
+import 'firebase/auth'
+require('firebase/auth')
 
 const auth = {
     namespaced: true,
