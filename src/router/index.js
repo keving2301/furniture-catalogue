@@ -2,9 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import firebase from 'firebase/app';
 import 'firebase/auth'
-require('firebase/auth')
 import Login from '../views/Login';
-
 import Dashboard from '../views/admin/Dashboard';
 import AddFurniture from "../views/admin/AddFurniture";
 import DeleteFurniture from "../views/admin/DeleteFurniture";
@@ -33,7 +31,7 @@ const routes = [
             {path: 'delete-furniture', component: DeleteFurniture},
         ],
         meta: {
-            requiresAuth: false,
+            requiresAuth: true,
             title: "Furniture Catalog",
             icon: "/logo.png"
         }
