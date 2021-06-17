@@ -22,9 +22,9 @@ const firebaseConfig = {
     measurementId: "G-P3G897RXHT"
 };
 
-firebase.initializeApp(firebaseConfig);
+firebase.default.initializeApp(firebaseConfig);
 
-firebase.auth().onAuthStateChanged(user => {
+firebase.default.auth().onAuthStateChanged(user => {
     store.dispatch('auth/fetchUser', user).then();
     if (!app) {
         new Vue({
