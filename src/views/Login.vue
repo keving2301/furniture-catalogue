@@ -50,6 +50,7 @@
 
 <script>
 import firebase from 'firebase/app';
+import 'firebase/auth'
 
 export default {
   data() {
@@ -78,7 +79,7 @@ export default {
     validate() {
       if (this.$refs.form.validate()) {
         firebase
-            .auth()
+            .default.auth()
             .signInWithEmailAndPassword(this.email, this.password)
             .then(() => {
               this.$router.replace({path: "/admin"});
