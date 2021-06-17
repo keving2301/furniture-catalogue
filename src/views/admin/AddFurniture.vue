@@ -91,9 +91,6 @@
 </template>
 
 <script>
-import firebase from "firebase/app";
-import 'firebase/firestore'
-
 export default {
   name: "add-furniture",
   data() {
@@ -168,19 +165,7 @@ export default {
       // }
 
     },
-    // Update User Information
-    updateFurniture() {
-      console.log("document Exists Already");
-      try {
-        let docRef = this.furniture.sku.toString();
-        console.log(docRef);
 
-        firebase.firestore().collection("furniture").doc(docRef).update(this.furniture);
-        console.log("Furniture successfully updated!");
-      } catch (error) {
-        console.error("Error updating furniture: ", error);
-      }
-    },
     onFilePick() {
       this.$refs.fileInput.click()
     },

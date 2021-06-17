@@ -71,19 +71,28 @@ const furniture = {
 
                 return firebase.database().ref('furniture').child(id).update({imageURL: imageURL})
             }).then(() => {
-                commit('createFurniture', {
-                    ...furniture,
-                    imageURL: imageURL,
-                    id: id
-                })
+                commit('resetState')
                 console.log("Furniture successfully added!");
             }).catch((error) => {
                 console.log(error)
             })
         },
-        storeAllFurniture({commit}, payload) {
-
-            commit('storeAllFurniture', payload)
+        storeAllFurniture({commit}) {
+            firebase.firestore().collection("furniture").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const data = {
+                        'sku': doc.id,
+                        'name': doc.data().name,
+                        'price': doc.data().price,
+                        'color': doc.data().color,
+                        'category': doc.data().category,
+                        'material': doc.data().material,
+                        'manufacture': doc.data().manufacture,
+                        'imageURL': doc.data().imageURL,
+                    }
+                    commit('storeAllFurniture', data)
+                });
+            });
         },
         deleteFurniture({commit}, payload) {
             commit('deleteFurniture', payload)
