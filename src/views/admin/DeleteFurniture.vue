@@ -8,7 +8,7 @@
     <v-data-table :headers="headers" :items="furnitures" class="elevation-1" sort-by="calories">
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title>My CRUD</v-toolbar-title>
+          <v-toolbar-title>Catalog</v-toolbar-title>
           <v-divider class="mx-4" inset vertical></v-divider>
           <v-spacer></v-spacer>
           <v-btn class="mb-2" color="primary" dark @click="goToAddFurniture">New Item</v-btn>
@@ -25,33 +25,33 @@
               <v-card-text>
                 <v-container>
                   <v-row>
-                    <v-col cols="12" md="4" sm="6">
+                    <v-col cols="12" md="12" sm="12">
+                      <v-text-field disabled v-model="furniture.sku" label="SKU"></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="12" sm="12">
                       <v-text-field v-model="furniture.name" label="Furniture name"></v-text-field>
                     </v-col>
-                    <v-col cols="12" md="4" sm="6">
-                      <v-text-field v-model="furniture.sku" label="SKU"></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                    <v-col cols="12" md="12" sm="12">
                       <v-text-field v-model="furniture.price" label="Price"></v-text-field>
                     </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                    <v-col cols="12" md="12" sm="12">
                       <v-select
                           v-model="furniture.color" :items="colors" data-vv-name="select" label="Color" required
                       ></v-select>
                     </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                    <v-col cols="12" md="12" sm="12">
                       <v-select
                           v-model="furniture.category" :items="categories" data-vv-name="select" label="Category"
                           required
                       ></v-select>
                     </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                    <v-col cols="12" md="12" sm="12">
                       <v-select
                           v-model="furniture.material" :items="materials" data-vv-name="select" label="Material"
                           required
                       ></v-select>
                     </v-col>
-                    <v-col cols="12" md="4" sm="6">
+                    <v-col cols="12" md="12" sm="12">
                       <v-select
                           v-model="furniture.manufacture" :items="manufactures" data-vv-name="select"
                           label="Manufacture" required
@@ -174,8 +174,7 @@ export default {
       firebase.firestore().collection("furniture").doc(this.furniture.sku).update(this.furniture)
           .then(() => {
             console.log("Document successfully updated!");
-            this.$store.dispatch('resetState');
-            this.$store.dispatch('storeAllFurniture');
+            this.resetValues();
             this.newItemDialog = false
           })
           .catch(function (error) {

@@ -112,9 +112,7 @@ export default {
       {path: '/accessories', title: 'Accessories', icon: 'mdi-image-frame'}
     ],
     tools: [
-      {path: '/add-furniture', title: 'Add Furniture', icon: 'mdi-plus-circle'},
-      {path: '/delete-furniture', title: 'Delete Furniture', icon: 'mdi-pencil-outline'},
-      {path: '/edit', title: 'Edit Furniture', icon: 'mdi-delete-forever'}
+      {path: '/management', title: 'Management', icon: 'mdi-pencil-outline'},
     ]
   }),
   created() {

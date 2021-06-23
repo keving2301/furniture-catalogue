@@ -47,15 +47,15 @@
               required
           ></v-select>
          <v-layout row>
-           <v-flex class="d-flex">
+           <v-flex class="d-flex mt-5 justify-center">
              <input
                  ref="fileInput"
                  @change="onImageUpload"
-                 accept="image/png"
+                 accept="image/png/jpg/jpeg"
                  type="file"
                  style="display: none"
              >
-             <v-btn @click="onFilePick">Upload</v-btn>
+             <v-btn block class="primary" @click="onFilePick">Upload Image</v-btn>
            </v-flex>
          </v-layout>
           <v-layout row>
@@ -156,7 +156,7 @@ export default {
       }
 
       this.$store.dispatch('createFurniture', furnitureData);
-      this.$router.push('/admin/delete-furniture');
+      this.$router.push('/admin/management');
       // try {
       //   db.collection("furniture").doc(this.furniture.sku).set(this.furniture);
       //   console.log("Furniture successfully created with SKU: ", this.furniture.sku);
