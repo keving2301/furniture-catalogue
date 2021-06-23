@@ -68,9 +68,14 @@
                 submit
               </v-btn>
               <v-btn @click="clear"
-                     class="error--text"
+                     class="mr-4 error--text"
                      :disabled="!formHasInfo">
                 clear
+              </v-btn>
+              <v-btn @click="backToManagment"
+                     class="error--text"
+              >
+                cancel
               </v-btn>
             </v-flex>
           </v-layout>
@@ -184,6 +189,10 @@ export default {
       })
       fileReader.readAsDataURL(files[0])
       this.furniture.image = files[0]
+    },
+
+    backToManagment() {
+      this.$router.push('/admin/management')
     },
 
     clear() {

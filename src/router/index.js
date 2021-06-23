@@ -5,7 +5,7 @@ import 'firebase/auth'
 import Login from '../views/Login';
 import Dashboard from '../views/admin/Dashboard';
 import AddFurniture from "../views/admin/AddFurniture";
-import DeleteFurniture from "../views/admin/Management";
+import Management from "../views/admin/Management";
 import SignUp from "@/views/SignUp";
 
 Vue.use(VueRouter)
@@ -28,7 +28,7 @@ const routes = [
         children: [
             {path: '', component: Dashboard},
             {path: 'add-furniture', component: AddFurniture},
-            {path: 'management', component: DeleteFurniture},
+            {path: 'management', component: Management},
         ],
         meta: {
             requiresAuth: true,
