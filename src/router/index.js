@@ -5,7 +5,7 @@ import 'firebase/auth'
 import Login from '../views/Login';
 import Dashboard from '../views/admin/Dashboard';
 import AddFurniture from "../views/admin/AddFurniture";
-import DeleteFurniture from "../views/admin/DeleteFurniture";
+import DeleteFurniture from "../views/admin/Management";
 import SignUp from "@/views/SignUp";
 
 Vue.use(VueRouter)

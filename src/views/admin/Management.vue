@@ -97,7 +97,7 @@ import firebase from "firebase/app";
 import 'firebase/firestore'
 
 export default {
-  name: "delete-furniture",
+  name: "management",
   data() {
     return {
       furnitures: [],
