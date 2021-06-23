@@ -86,7 +86,7 @@
         <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
       </template>
       <template v-slot:no-data>
-        <!--        <v-btn color="primary" @click="watcher">Reset</v-btn>-->
+        <v-btn color="primary" @click="resetValues">Reset</v-btn>
       </template>
     </v-data-table>
   </v-container>
@@ -163,6 +163,12 @@ export default {
   },
 
   methods: {
+    resetValues() {
+      //Resets Store Values
+      this.$store.dispatch('resetState');
+      this.$store.dispatch('storeAllFurniture')
+      this.furnitures = this.$store.getters.loadedAllFurniture
+    },
 
     save() {
       firebase.firestore().collection("furniture").doc(this.furniture.sku).update(this.furniture)
