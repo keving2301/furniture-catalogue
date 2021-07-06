@@ -28,7 +28,7 @@ const routes = [
         children: [
             {path: '', component: Dashboard},
             {path: 'add-furniture', component: AddFurniture},
-            {path: 'management', component: Management},
+            {path: 'management', component: Management, name: Management},
         ],
         meta: {
             requiresAuth: true,
