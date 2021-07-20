@@ -7,6 +7,7 @@ import Dashboard from '../views/admin/Dashboard';
 import AddFurniture from "../views/admin/AddFurniture";
 import Management from "../views/admin/Management";
 import SignUp from "@/views/SignUp";
+import Catalog from "@/views/admin/Catalog";
 
 Vue.use(VueRouter)
 
@@ -28,7 +29,8 @@ const routes = [
         children: [
             {path: '', component: Dashboard},
             {path: 'add-furniture', component: AddFurniture},
-            {path: 'management', component: Management, name: Management},
+            {path: 'management', component: Management},
+            {path: 'bedroom', component: Catalog, name: Catalog},
         ],
         meta: {
             requiresAuth: true,

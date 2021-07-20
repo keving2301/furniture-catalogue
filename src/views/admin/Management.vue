@@ -13,7 +13,7 @@
           <v-spacer></v-spacer>
           <v-btn class="mb-2" color="primary" dark @click="goToAddFurniture">New Item</v-btn>
 
-          <!--          New Furniture Modal-->
+          <!-- New Furniture Modal-->
           <v-dialog v-model="newItemDialog" max-width="500px">
             <template v-slot:activator="{ on, attrs }">
               <v-btn v-show="false" v-bind="attrs" v-on="on" class="mb-2" color="primary" dark>New Item</v-btn>
@@ -57,6 +57,14 @@
                           label="Manufacture" required
                       ></v-select>
                     </v-col>
+<!--                    <v-col cols="12" md="12" sm="12">
+                      <v-img
+                          contain
+                          :src="furniture.imageURL"
+                          height="530" width="480"
+                          label="Manufacture"
+                      ></v-img>
+                    </v-col>-->
                   </v-row>
                 </v-container>
               </v-card-text>

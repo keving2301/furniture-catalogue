@@ -53,6 +53,8 @@ const furniture = {
                 color: payload.color,
                 category: payload.category,
                 material: payload.material,
+                sku: payload.sku
+
             }
             //Store info in firebase
             let imageURL
@@ -68,7 +70,6 @@ const furniture = {
             }).then(fileData => {
 
                 imageURL = fileData.ref.getDownloadURL()
-
                 return firebase.database().ref('furniture').child(id).update({imageURL: imageURL})
             }).then(() => {
                 commit('resetState')

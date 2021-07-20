@@ -22,7 +22,7 @@
           <v-list-item-group class="ml-14">
             <v-list-item v-for="(catalog, index) in catalogs" :key="index" link>
               <!--              <v-icon class="mr-5">{{ catalog.icon }}</v-icon>-->
-              <v-list-item-title v-text="catalog.title"></v-list-item-title>
+              <v-list-item-title v-text="catalog.title" @click="goto(catalog.path)"></v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </v-list-group>

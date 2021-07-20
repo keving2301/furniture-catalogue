@@ -22,7 +22,7 @@
           </v-flex>
           <v-flex class="col-6">
             <v-btn class="d-flex justify-center align-center"
-                   :to="{path: '/admin/management'}"
+                   :to="{path: '/admin/bedroom'}"
                    style="background-color: cadetblue; height: 20rem; width: 100%">
               <v-icon class="mr-3 white--text">mdi-sofa-single-outline</v-icon>
               <span style="color: white; font-weight: 600; font-size: 20px">Catalog</span></v-btn>
