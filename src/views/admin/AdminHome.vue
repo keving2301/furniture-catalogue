@@ -107,9 +107,10 @@ export default {
     ],
     catalogs: [
       {path: '/bedroom', title: 'Beds & Bedrooms', icon: 'mdi-bed'},
-      {path: '/livingroom', title: 'Living Rooms', icon: 'mdi-sofa'},
+      {path: '/living-room', title: 'Living Rooms', icon: 'mdi-sofa'},
       {path: '/dining', title: 'Dining Rooms', icon: 'mdi-table-picnic'},
-      {path: '/accessories', title: 'Accessories', icon: 'mdi-image-frame'}
+      {path: '/accessories', title: 'Accessories', icon: 'mdi-image-frame'},
+      {path: '/all', title: 'View All', icon: 'mdi-image-frame'}
     ],
     tools: [
       {path: '/management', title: 'Management', icon: 'mdi-pencil-outline'},

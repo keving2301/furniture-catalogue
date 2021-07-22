@@ -2,7 +2,7 @@
   <v-container>
     <v-item-group class="d-flex justify-center my-7" style="background-color: #e5e4e4; border-radius: 10px">
       <v-item class="py-3" style="font-weight: 500">
-        <h5>Catalog</h5>
+        <h5> Dining Room</h5>
       </v-item>
     </v-item-group>
     <v-flex>
@@ -147,7 +147,7 @@ export default {
 
     //Resets Store Values
     this.$store.dispatch('resetState');
-    this.$store.dispatch('storeAllFurniture')
+    this.$store.dispatch('storeDiningRoomFurniture')
     this.furnitures = this.$store.getters.loadedAllFurniture
   },
 
@@ -155,7 +155,7 @@ export default {
     resetValues() {
       //Resets Store Values
       this.$store.dispatch('resetState');
-      this.$store.dispatch('storeAllFurniture')
+      this.$store.dispatch('storeDiningRoomFurniture')
       this.furnitures = this.$store.getters.loadedAllFurniture
     },
 
@@ -211,7 +211,7 @@ export default {
     deleteItemConfirm() {
       firebase.firestore().collection("furniture").doc(this.furniture.sku).delete().then(() => {
         this.$store.dispatch('resetState');
-        this.$store.dispatch('storeAllFurniture');
+        this.$store.dispatch('storeDiningRoomFurniture');
         this.furnitures = this.$store.getters.loadedAllFurniture
         console.log("Document successfully deleted!");
       }).catch(function (error) {

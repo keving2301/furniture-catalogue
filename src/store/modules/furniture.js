@@ -7,6 +7,7 @@ const furniture = {
     state: {
         furniture: []
     },
+    //*******************************************************************************************************
     getters: {
         loadedAllFurniture(state) {
             return state.furniture;
@@ -19,6 +20,7 @@ const furniture = {
             }
         }
     },
+    //*******************************************************************************************************
     mutations: {
         createFurniture(state, payload) {
             state.furniture.push(payload)
@@ -26,23 +28,24 @@ const furniture = {
         storeAllFurniture(state, payload) {
             state.furniture.push(payload)
         },
-        deleteFurniture(state, payload){
+        deleteFurniture(state, payload) {
             console.log(state.furniture)
-            try{
+            try {
                 let i;
-                for(i = 0; i<state.furniture.length; i++){
-                    if(state.furniture[i].sku === payload.sku){
+                for (i = 0; i < state.furniture.length; i++) {
+                    if (state.furniture[i].sku === payload.sku) {
                         state.furniture[i].remove()
                     }
                 }
-            }catch(error){
+            } catch (error) {
                 console.log(error)
             }
         },
-        resetState(state){
-           state.furniture = []
+        resetState(state) {
+            state.furniture = []
         }
     },
+    //*******************************************************************************************************
     actions: {
         createFurniture({commit}, payload) {
             const furniture = {
@@ -95,6 +98,86 @@ const furniture = {
                 });
             });
         },
+        storeBedroomFurniture({commit}) {
+            firebase.firestore().collection("furniture").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const data = {
+                        'sku': doc.id,
+                        'name': doc.data().name,
+                        'price': doc.data().price,
+                        'color': doc.data().color,
+                        'category': doc.data().category,
+                        'material': doc.data().material,
+                        'manufacture': doc.data().manufacture,
+                        'imageURL': doc.data().imageURL,
+                    }
+                    if (data.category === 'Beds & Bedrooms') {
+                        commit('storeAllFurniture', data)
+
+                    }
+                });
+            });
+        },
+        storeLivingRoomFurniture({commit}) {
+            firebase.firestore().collection("furniture").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const data = {
+                        'sku': doc.id,
+                        'name': doc.data().name,
+                        'price': doc.data().price,
+                        'color': doc.data().color,
+                        'category': doc.data().category,
+                        'material': doc.data().material,
+                        'manufacture': doc.data().manufacture,
+                        'imageURL': doc.data().imageURL,
+                    }
+                    if (data.category === 'Living Room') {
+                        commit('storeAllFurniture', data)
+
+                    }
+                });
+            });
+        },
+        storeDiningRoomFurniture({commit}) {
+            firebase.firestore().collection("furniture").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const data = {
+                        'sku': doc.id,
+                        'name': doc.data().name,
+                        'price': doc.data().price,
+                        'color': doc.data().color,
+                        'category': doc.data().category,
+                        'material': doc.data().material,
+                        'manufacture': doc.data().manufacture,
+                        'imageURL': doc.data().imageURL,
+                    }
+                    if (data.category === 'Dining Room') {
+                        commit('storeAllFurniture', data)
+
+                    }
+                });
+            });
+        },
+        storeAccessoryFurniture({commit}) {
+            firebase.firestore().collection("furniture").get().then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const data = {
+                        'sku': doc.id,
+                        'name': doc.data().name,
+                        'price': doc.data().price,
+                        'color': doc.data().color,
+                        'category': doc.data().category,
+                        'material': doc.data().material,
+                        'manufacture': doc.data().manufacture,
+                        'imageURL': doc.data().imageURL,
+                    }
+                    if (data.category === 'Accessories') {
+                        commit('storeAllFurniture', data)
+
+                    }
+                });
+            });
+        },
         deleteFurniture({commit}, payload) {
             commit('deleteFurniture', payload)
         },
@@ -103,5 +186,6 @@ const furniture = {
         }
     }
 }
+//*******************************************************************************************************
 
 export default furniture;

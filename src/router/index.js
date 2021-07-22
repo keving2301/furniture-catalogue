@@ -8,6 +8,10 @@ import AddFurniture from "../views/admin/AddFurniture";
 import Management from "../views/admin/Management";
 import SignUp from "@/views/SignUp";
 import Catalog from "@/views/admin/Catalog";
+import Bedroom from "@/views/admin/Bedroom";
+import LivingRoom from "@/views/admin/LivingRoom";
+import DiningRoom from "@/views/admin/DiningRoom";
+import Accessories from "@/views/admin/Accessories";
 
 Vue.use(VueRouter)
 
@@ -30,7 +34,11 @@ const routes = [
             {path: '', component: Dashboard},
             {path: 'add-furniture', component: AddFurniture},
             {path: 'management', component: Management},
-            {path: 'bedroom', component: Catalog, name: Catalog},
+            {path: 'all', component: Catalog, name: Catalog},
+            {path: 'bedroom', component: Bedroom, name: Bedroom},
+            {path: 'living-room', component: LivingRoom, name: LivingRoom},
+            {path: 'dining', component: DiningRoom, name: DiningRoom},
+            {path: 'accessories', component: Accessories, name: Accessories},
         ],
         meta: {
             requiresAuth: true,
